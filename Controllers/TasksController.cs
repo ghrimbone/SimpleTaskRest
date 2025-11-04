@@ -9,21 +9,21 @@ namespace TaskManagerAPI.Controllers
     [Route("api/[controller]")]
     public class TasksController : ControllerBase
     {
-        private readonly TaskManagerContext _context;
+        private readonly TaskContext _context;
 
-        public TasksController(TaskManagerContext context)
+        public TasksController(TaskContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TaskItem>>> GetTasks([FromQuery] bool? completed = null)
+        public async Task<ActionResult<IEnumerable<TaskItem>>> GetTasks([FromQuery] bool? isCompleted = null)
         {
             var query = _context.Tasks.AsQueryable();
 
-            if (completed.HasValue)
+            if (isCompleted.HasValue)
             {
-                query = query.Where(t => t.Completed == completed);
+                query = query.Where(t => t.IsCompleted == isCompleted);
             }
 
             var tasks = await query.OrderBy(t => t.Id).ToListAsync();
@@ -50,7 +50,7 @@ namespace TaskManagerAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            task.CreatedAt = DateTime.UTCNow;
+            task.CreatedAt = DateTime.UtcNow;
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
 
