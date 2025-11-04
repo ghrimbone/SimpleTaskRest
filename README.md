@@ -23,7 +23,7 @@ This API provides endpoints to create, read, update, and delete tasks. It uses E
 1. Clone the repository
 ```bash
 git clone https://github.com/ghrimbone/SimpleTaskRest.git
-cd TaskManagerAPI
+cd SimpleTaskRest
 ```
 
 2. Create `Properties/launchSettings.json`
